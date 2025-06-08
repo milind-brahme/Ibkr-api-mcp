@@ -2,6 +2,24 @@
 
 A Model Context Protocol (MCP) server for Interactive Brokers (IBKR) that provides trading and market data capabilities through a standardized interface.
 
+## ⚠️ **CRITICAL WARNING - READ BEFORE USE** ⚠️
+
+**🚫 DO NOT USE THIS SOFTWARE FOR LIVE TRADING OR REAL MONEY TRANSACTIONS 🚫**
+
+This project is currently **WORK IN PROGRESS** and is intended for **EDUCATIONAL AND TESTING PURPOSES ONLY**.
+
+**RISKS AND DISCLAIMERS:**
+- This software is experimental and may contain bugs, errors, or unexpected behavior
+- Using this software with real trading accounts may result in **SIGNIFICANT FINANCIAL LOSSES**
+- The developers and contributors accept **NO RESPONSIBILITY** for any financial losses, damages, or consequences resulting from the use of this software
+- **YOU USE THIS SOFTWARE AT YOUR OWN RISK**
+- Always test with paper trading accounts or simulated environments only
+- Never provide real account credentials or enable live trading until the software is production-ready
+
+**By using this software, you acknowledge that you understand these risks and agree that you are solely responsible for any consequences of its use.**
+
+---
+
 ## Features
 
 ### Authentication
