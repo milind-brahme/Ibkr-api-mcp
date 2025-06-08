@@ -1,0 +1,30 @@
+# Example IBKR Client Portal Gateway configuration
+# Place this in your gateway's root directory as conf.yaml
+
+ips:
+  allow:
+    - 127.0.0.1
+    - localhost
+
+proxyRemoteDomain: api.ibkr.com
+proxyRemotePort: 443
+
+listenPort: 5000
+listenSsl: true
+
+sslCert: server.crt
+sslKey: server.key
+
+# Enable CORS for web applications
+cors: "*"
+
+# Session timeout (in seconds)
+sessionTimeout: 900
+
+# Enable paper trading mode (set to false for live trading)
+paperTrading: true
+
+# API settings
+api:
+  rateLimit: 40  # requests per minute
+  maxConnections: 5
