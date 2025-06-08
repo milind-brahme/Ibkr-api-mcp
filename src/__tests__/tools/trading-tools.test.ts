@@ -25,7 +25,13 @@ describe('Trading Tools', () => {
 
   describe('place_order', () => {
     it('should place a market order successfully', async () => {
-      const mockContracts = [{ conid: 265598, symbol: 'AAPL' }];
+      const mockContracts = [{ 
+        conid: 265598, 
+        symbol: 'AAPL',
+        secType: 'STK',
+        exchange: 'NASDAQ',
+        currency: 'USD'
+      }];
       const mockOrderResponse = { orderId: '12345', orderStatus: 'Submitted' };
 
       mockIBKRClient.searchContracts.mockResolvedValue(mockContracts);

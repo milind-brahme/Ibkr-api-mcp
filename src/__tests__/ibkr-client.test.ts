@@ -90,8 +90,8 @@ describe('IBKRClient', () => {
 
   describe('Market Data', () => {
     beforeEach(() => {
-      // Mock authentication status
-      jest.spyOn(client, 'getAuthenticationStatus').mockReturnValue(true);
+      // Set authentication status to true for market data tests
+      (client as any).isAuthenticated = true;
     });
 
     it('should search contracts successfully', async () => {
@@ -155,7 +155,7 @@ describe('IBKRClient', () => {
     });
 
     it('should throw error when not authenticated', async () => {
-      jest.spyOn(client, 'getAuthenticationStatus').mockReturnValue(false);
+      (client as any).isAuthenticated = false;
 
       await expect(client.searchContracts('AAPL')).rejects.toThrow('Not authenticated. Please authenticate first.');
     });
@@ -163,7 +163,7 @@ describe('IBKRClient', () => {
 
   describe('Trading', () => {
     beforeEach(() => {
-      jest.spyOn(client, 'getAuthenticationStatus').mockReturnValue(true);
+      (client as any).isAuthenticated = true;
     });
 
     it('should place order successfully', async () => {
@@ -219,7 +219,7 @@ describe('IBKRClient', () => {
 
   describe('Account Operations', () => {
     beforeEach(() => {
-      jest.spyOn(client, 'getAuthenticationStatus').mockReturnValue(true);
+      (client as any).isAuthenticated = true;
     });
 
     it('should get accounts successfully', async () => {

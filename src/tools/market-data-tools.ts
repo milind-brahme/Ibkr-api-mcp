@@ -1,45 +1,72 @@
-import { z } from 'zod';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { IBKRClient } from '../services/ibkr-client.js';
-
-const SearchContractsSchema = z.object({
-  symbol: z.string().describe('Symbol to search for'),
-});
-
-const GetMarketDataSchema = z.object({
-  symbols: z.array(z.string()).describe('Array of symbols to get market data for'),
-});
-
-const GetHistoricalDataSchema = z.object({
-  symbol: z.string().describe('Symbol to get historical data for'),
-  period: z.string().optional().describe('Time period (1d, 7d, 1m, 3m, 6m, 1y, 2y, 5y)'),
-  bar: z.string().optional().describe('Bar size (1min, 5min, 15min, 30min, 1h, 1d, 1w, 1m)'),
-});
-
-const GetMarketScannerSchema = z.object({
-  scanType: z.string().optional().describe('Scanner type (TOP_PERC_GAIN, TOP_PERC_LOSE, MOST_ACTIVE, etc.)'),
-});
 
 export const marketDataTools: Tool[] = [
   {
     name: 'search_contracts',
     description: 'Search for contracts by symbol',
-    inputSchema: SearchContractsSchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        symbol: {
+          type: 'string',
+          description: 'Symbol to search for',
+        },
+      },
+      required: ['symbol'],
+    },
   },
   {
     name: 'get_market_data',
     description: 'Get real-time market data snapshots for symbols',
-    inputSchema: GetMarketDataSchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        symbols: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+          description: 'Array of symbols to get market data for',
+        },
+      },
+      required: ['symbols'],
+    },
   },
   {
     name: 'get_historical_data',
     description: 'Get historical price data for a symbol',
-    inputSchema: GetHistoricalDataSchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        symbol: {
+          type: 'string',
+          description: 'Symbol to get historical data for',
+        },
+        period: {
+          type: 'string',
+          description: 'Time period (1d, 7d, 1m, 3m, 6m, 1y, 2y, 5y)',
+        },
+        bar: {
+          type: 'string',
+          description: 'Bar size (1min, 5min, 15min, 30min, 1h, 1d, 1w, 1m)',
+        },
+      },
+      required: ['symbol'],
+    },
   },
   {
     name: 'get_market_scanner',
     description: 'Get market scanner results (top gainers, losers, etc.)',
-    inputSchema: GetMarketScannerSchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        scanType: {
+          type: 'string',
+          description: 'Scanner type (TOP_PERC_GAIN, TOP_PERC_LOSE, MOST_ACTIVE, etc.)',
+        },
+      },
+    },
   },
 ];
 

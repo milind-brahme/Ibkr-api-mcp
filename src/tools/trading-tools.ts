@@ -1,61 +1,114 @@
-import { z } from 'zod';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { IBKRClient } from '../services/ibkr-client.js';
-
-const PlaceOrderSchema = z.object({
-  accountId: z.string().describe('Account ID for the order'),
-  symbol: z.string().describe('Symbol to trade'),
-  orderType: z.enum(['MKT', 'LMT', 'STP', 'STOP_LIMIT']).describe('Order type'),
-  side: z.enum(['BUY', 'SELL']).describe('Order side'),
-  quantity: z.number().positive().describe('Order quantity'),
-  price: z.number().optional().describe('Limit price (required for LMT orders)'),
-  auxPrice: z.number().optional().describe('Stop price (required for STP orders)'),
-  tif: z.enum(['GTC', 'DAY', 'IOC', 'FOK']).optional().describe('Time in force'),
-});
-
-const CancelOrderSchema = z.object({
-  accountId: z.string().describe('Account ID'),
-  orderId: z.string().describe('Order ID to cancel'),
-});
-
-const GetPositionsSchema = z.object({
-  accountId: z.string().describe('Account ID to get positions for'),
-});
-
-const GetAccountSummarySchema = z.object({
-  accountId: z.string().describe('Account ID to get summary for'),
-});
 
 export const tradingTools: Tool[] = [
   {
     name: 'place_order',
     description: 'Place a trading order through IBKR',
-    inputSchema: PlaceOrderSchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        accountId: {
+          type: 'string',
+          description: 'Account ID for the order',
+        },
+        symbol: {
+          type: 'string',
+          description: 'Symbol to trade',
+        },
+        orderType: {
+          type: 'string',
+          enum: ['MKT', 'LMT', 'STP', 'STOP_LIMIT'],
+          description: 'Order type',
+        },
+        side: {
+          type: 'string',
+          enum: ['BUY', 'SELL'],
+          description: 'Order side',
+        },
+        quantity: {
+          type: 'number',
+          minimum: 1,
+          description: 'Order quantity',
+        },
+        price: {
+          type: 'number',
+          description: 'Limit price (required for LMT orders)',
+        },
+        auxPrice: {
+          type: 'number',
+          description: 'Stop price (required for STP orders)',
+        },
+        tif: {
+          type: 'string',
+          enum: ['GTC', 'DAY', 'IOC', 'FOK'],
+          description: 'Time in force',
+        },
+      },
+      required: ['accountId', 'symbol', 'orderType', 'side', 'quantity'],
+    },
   },
   {
     name: 'cancel_order',
     description: 'Cancel an existing order',
-    inputSchema: CancelOrderSchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        accountId: {
+          type: 'string',
+          description: 'Account ID',
+        },
+        orderId: {
+          type: 'string',
+          description: 'Order ID to cancel',
+        },
+      },
+      required: ['accountId', 'orderId'],
+    },
   },
   {
     name: 'get_orders',
     description: 'Get all active orders',
-    inputSchema: z.object({}),
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
   },
   {
     name: 'get_positions',
     description: 'Get current positions for an account',
-    inputSchema: GetPositionsSchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        accountId: {
+          type: 'string',
+          description: 'Account ID to get positions for',
+        },
+      },
+      required: ['accountId'],
+    },
   },
   {
     name: 'get_accounts',
     description: 'Get all available trading accounts',
-    inputSchema: z.object({}),
+    inputSchema: {
+      type: 'object',
+      properties: {},
+    },
   },
   {
     name: 'get_account_summary',
     description: 'Get account summary including balances',
-    inputSchema: GetAccountSummarySchema,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        accountId: {
+          type: 'string',
+          description: 'Account ID to get summary for',
+        },
+      },
+      required: ['accountId'],
+    },
   },
 ];
 
